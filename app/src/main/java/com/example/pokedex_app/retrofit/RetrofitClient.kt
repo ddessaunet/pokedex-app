@@ -1,4 +1,4 @@
-package com.example.my_kotlin_app.retrofit
+package com.example.pokedex_app.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -10,7 +10,8 @@ object RetrofitClient {
     val instance:Retrofit get() {
         if (ourInstance == null) {
             ourInstance = Retrofit.Builder()
-                .baseUrl("https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/")
+//            https://stackoverflow.com/questions/5495534/java-net-connectexception-localhost-127-0-0-18080-connection-refused
+                .baseUrl("http://10.0.2.2:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

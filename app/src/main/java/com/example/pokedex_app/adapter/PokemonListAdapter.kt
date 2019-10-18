@@ -1,4 +1,4 @@
-package com.example.my_kotlin_app.adapter
+package com.example.pokedex_app.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.my_kotlin_app.R
-import com.example.my_kotlin_app.model.Pokemon
+import com.example.pokedex_app.R
+import com.example.pokedex_app.model.Pokemon
 
 class PokemonListAdapter(
     internal val context: Context,

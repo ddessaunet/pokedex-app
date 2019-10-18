@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.my_kotlin_app"
+        applicationId "com.example.pokedex_app"
         minSdkVersion 28
         targetSdkVersion 28
         versionCode 1

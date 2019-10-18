@@ -1,4 +1,4 @@
-package com.example.my_kotlin_app
+package com.example.pokedex_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

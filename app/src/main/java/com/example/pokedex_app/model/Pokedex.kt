@@ -1,4 +1,4 @@
-package com.example.my_kotlin_app.model
+package com.example.pokedex_app.model
 
 class Pokedex {
 

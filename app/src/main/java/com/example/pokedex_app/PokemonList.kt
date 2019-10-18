@@ -1,4 +1,4 @@
-package com.example.my_kotlin_app
+package com.example.pokedex_app
 
 
 import android.os.Bundle
@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.my_kotlin_app.adapter.PokemonListAdapter
-import com.example.my_kotlin_app.common.Common
-import com.example.my_kotlin_app.common.ItemOffsetDecoration
-import com.example.my_kotlin_app.model.Pokedex
-import com.example.my_kotlin_app.retrofit.IPokemonList
-import com.example.my_kotlin_app.retrofit.RetrofitClient
+import com.example.pokedex_app.adapter.PokemonListAdapter
+import com.example.pokedex_app.common.Common
+import com.example.pokedex_app.common.ItemOffsetDecoration
+import com.example.pokedex_app.model.Pokedex
+import com.example.pokedex_app.retrofit.IPokemonList
+import com.example.pokedex_app.retrofit.RetrofitClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

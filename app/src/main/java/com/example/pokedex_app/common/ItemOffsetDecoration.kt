@@ -1,4 +1,4 @@
-package com.example.my_kotlin_app.common
+package com.example.pokedex_app.common
 
 import android.content.Context
 import android.graphics.Rect
