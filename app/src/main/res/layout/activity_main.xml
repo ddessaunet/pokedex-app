@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <fragment
-            android:name="com.example.pokedex_app.PokemonList"
+            android:name="com.example.pokedex_app.view.PokemonList"
             android:id="@+id/list_pokemon_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

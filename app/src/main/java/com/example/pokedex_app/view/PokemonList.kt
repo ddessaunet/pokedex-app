@@ -1,4 +1,4 @@
-package com.example.pokedex_app
+package com.example.pokedex_app.view
 
 
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokedex_app.R
 import com.example.pokedex_app.adapter.PokemonListAdapter
 import com.example.pokedex_app.common.Common
 import com.example.pokedex_app.common.ItemOffsetDecoration
@@ -58,6 +59,7 @@ class PokemonList : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { pokemonDex: Pokedex ->
+                // Lambda Expressions
                 Common.pokemonList = pokemonDex.pokemon!!
                 val adapter = PokemonListAdapter(activity!!, Common.pokemonList)
                 recycler_view.adapter = adapter

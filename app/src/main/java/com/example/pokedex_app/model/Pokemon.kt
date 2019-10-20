@@ -1,5 +1,11 @@
 package com.example.pokedex_app.model
 
+/*
+* Before you create objects in Kotlin, you need to define a class.
+* A class is a blueprint for the object.
+*
+* https://www.programiz.com/kotlin-programming/class-objects
+* */
 class Pokemon {
     var id : Int = 0
     var num : Int = 0
