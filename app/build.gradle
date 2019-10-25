@@ -49,4 +49,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     implementation 'com.robertlevonyan.view:MaterialChipView:1.2.4'
+
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
 }
