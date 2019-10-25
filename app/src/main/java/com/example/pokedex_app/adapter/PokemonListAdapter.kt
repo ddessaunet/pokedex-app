@@ -38,9 +38,9 @@ class PokemonListAdapter(
         * */
         holder.setItemClickListener(object:IItemClickListener{
             override fun onClick(view: View, position: Int) {
-                Toast
-                    .makeText(context, "Clicked at Pokemon: " + pokemonList[position].name, Toast.LENGTH_SHORT)
-                    .show()
+//                Toast
+//                    .makeText(context, "Clicked at Pokemon: " + pokemonList[position].name, Toast.LENGTH_SHORT)
+//                    .show()
 
                 LocalBroadcastManager.getInstance(context)
                     .sendBroadcast(Intent(Common.KEY_ENABLE_HOME).putExtra("position", position))

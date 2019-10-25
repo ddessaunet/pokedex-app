@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import com.example.pokedex_app.R
+import com.example.pokedex_app.adapter.PokemonEvolutionAdapter
+import com.example.pokedex_app.adapter.PokemonTypeAdapter
 import com.example.pokedex_app.common.Common
+import com.example.pokedex_app.model.Evolution
 import com.example.pokedex_app.model.Pokemon
 
 class PokemonDetail : Fragment() {
@@ -97,13 +100,28 @@ class PokemonDetail : Fragment() {
     }
 
     private fun setDetailPokemon(pokemon:Pokemon?) {
+
         //Load Image
         Glide.with(activity!!).load(pokemon!!.img).into(pokemon_image)
 
         pokemon_name.text = pokemon.name
         pokemon_height.text = "Height: " + pokemon.height
-        pokemon_weight.text = "Weight:" + pokemon.weight
+        pokemon_weight.text = "Weight: " + pokemon.weight
+
+        val typeAdapter = PokemonTypeAdapter(activity!!, pokemon.type!!)
+        recycler_type.adapter = typeAdapter
+
+        val weaknessAdapter = PokemonTypeAdapter(activity!!, pokemon.weaknesses!!)
+        recycler_weakness.adapter = weaknessAdapter
+
+        if (pokemon.prev_evolution != null) {
+            val prevEvolution = PokemonEvolutionAdapter(activity!!, pokemon.prev_evolution as List<Evolution>)
+            recycler_prev_evolution.adapter = prevEvolution
+        }
+        if (pokemon.next_evolution != null) {
+            val nextEvolution = PokemonEvolutionAdapter(activity!!, pokemon.next_evolution as List<Evolution>)
+            recycler_next_evolution.adapter = nextEvolution
+        }
+
     }
-
-
 }
