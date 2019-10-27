@@ -67,11 +67,7 @@ class PokemonDetail : Fragment() {
         // Inflate the layout for this fragment
         val itemView = inflater.inflate(R.layout.fragment_pokemon_detail, container, false)
 
-        val pokemon:Pokemon?
-        if (arguments!!.getString("num") == null)
-            pokemon = Common.pokemonList[arguments!!.getInt("position")]
-            else
-            pokemon = Common.findPokemonByNum(arguments!!.getString("num"))
+        val pokemon = Common.findPokemonByNum(arguments!!.getString("num"))
 
         pokemon_image = itemView.findViewById(R.id.pokemon_image) as ImageView
         pokemon_name = itemView.findViewById(R.id.name) as TextView
