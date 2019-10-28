@@ -7,12 +7,21 @@ object Common {
     var pokemonList:List<Pokemon> = ArrayList()
     var KEY_ENABLE_HOME:String = "position"
     var KEY_NUM_EVOLUTION:String = "evolution"
+    var KEY_POKEMON_TYPE:String = "type"
 
     fun findPokemonByNum(num: String?):Pokemon? {
         for (pokemon in Common.pokemonList)
             if (pokemon.num.equals(num!!.toInt()))
                 return pokemon
         return null
+    }
+
+    fun findPokemonByType(type: String?): List<Pokemon> {
+        val pokemonList = ArrayList<Pokemon>()
+        for (pokemon in Common.pokemonList)
+            if (pokemon.type!!.contains(type))
+                pokemonList.add(pokemon)
+        return pokemonList
     }
 
     fun getColorByType(type: String): Int {

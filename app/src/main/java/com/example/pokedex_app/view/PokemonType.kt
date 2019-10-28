@@ -10,50 +10,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 import com.example.pokedex_app.R
 import com.example.pokedex_app.adapter.PokemonListAdapter
 import com.example.pokedex_app.common.Common
 import com.example.pokedex_app.common.ItemOffsetDecoration
-import com.example.pokedex_app.model.Pokedex
 import com.example.pokedex_app.model.Pokemon
-import com.example.pokedex_app.retrofit.IPokemonList
-import com.example.pokedex_app.retrofit.RetrofitClient
 import com.mancj.materialsearchbar.MaterialSearchBar
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class PokemonList : Fragment() {
+class PokemonType : Fragment() {
 
-    internal var compositeDisposable = CompositeDisposable()
-    internal var iPokemonList: IPokemonList
+    internal lateinit var recycler_view: RecyclerView
 
-    internal lateinit var recycler_view:RecyclerView
-
-    internal lateinit var adapter:PokemonListAdapter
-    internal lateinit var search_adapter:PokemonListAdapter
+    internal lateinit var adapter: PokemonListAdapter
+    internal lateinit var search_adapter: PokemonListAdapter
     internal var last_suggest:MutableList<String> = ArrayList()
 
     internal lateinit var search_bar: MaterialSearchBar
 
-    companion object {
-        internal var instance:PokemonList?=null
+    internal lateinit var typeList:List<Pokemon>
 
-        fun getInstance():PokemonList {
+    companion object {
+        internal var instance:PokemonType?=null
+
+        fun getInstance():PokemonType {
             if (instance == null) {
-                instance = PokemonList()
+                instance = PokemonType()
             }
             return instance!!
         }
-    }
-
-    init {
-        val retrofit = RetrofitClient.instance
-        iPokemonList = retrofit.create(IPokemonList::class.java)
     }
 
     override fun onCreateView(
@@ -62,7 +51,7 @@ class PokemonList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val itemView = inflater.inflate(R.layout.fragment_pokemon_list, container, false)
+        var itemView = inflater.inflate(R.layout.fragment_pokemon_type, container, false)
 
         recycler_view = itemView.findViewById(R.id.pokemon_recyclerview) as RecyclerView
         recycler_view.setHasFixedSize(true)
@@ -110,15 +99,36 @@ class PokemonList : Fragment() {
             }
 
         })
-        fetchData()
+
+        if (arguments != null)
+        {
+            val type = arguments!!.getString("type")
+            if (type != null)
+            {
+                typeList = Common.findPokemonByType(type)
+                adapter = PokemonListAdapter(activity!!, typeList)
+                recycler_view.adapter = adapter
+
+                loadSuggest()
+            }
+
+        }
 
         return itemView
     }
 
+    private fun loadSuggest() {
+        last_suggest.clear()
+        if (typeList.size > 0)
+            for (pokemon in typeList)
+                last_suggest.add(pokemon.name!!)
+        search_bar!!.lastSuggestions = last_suggest
+    }
+
     private fun startSearch(text: String) {
-        if (Common.pokemonList.size > 0) {
+        if (typeList.size > 0) {
             val result = ArrayList<Pokemon>()
-            for (pokemon in Common.pokemonList) {
+            for (pokemon in typeList) {
                 if (pokemon.name!!.toLowerCase().contains(text.toLowerCase())) {
                     result.add(pokemon)
                 }
@@ -128,28 +138,5 @@ class PokemonList : Fragment() {
         }
 
     }
-
-    private fun fetchData() {
-        compositeDisposable.add(iPokemonList
-            .listPokemon
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { pokemonDex: Pokedex ->
-                // Lambda Expressions
-                Common.pokemonList = pokemonDex.pokemon!!
-                adapter = PokemonListAdapter(activity!!, Common.pokemonList)
-                recycler_view.adapter = adapter
-
-                last_suggest.clear()
-                for (pokemon in Common.pokemonList) {
-                    last_suggest.add(pokemon.name!!)
-                }
-
-                search_bar.visibility = View.VISIBLE
-                search_bar.lastSuggestions = last_suggest
-            }
-        )
-    }
-
 
 }

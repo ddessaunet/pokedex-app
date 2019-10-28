@@ -11,11 +11,36 @@ import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.pokedex_app.common.Common
 import com.example.pokedex_app.view.PokemonDetail
+import com.example.pokedex_app.view.PokemonList
+import com.example.pokedex_app.view.PokemonType
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     //Create BroadCast handle
+    private val showPokemonType = object:BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent!!.action!!.toString() == Common.KEY_POKEMON_TYPE)
+            {
+                //Replace Fragment
+                val pokemonType = PokemonType.getInstance()
+                val bundle = Bundle()
+                val type = intent.getStringExtra("type")
+                bundle.putString("type", type)
+                pokemonType.arguments = bundle
+
+                supportFragmentManager.popBackStack(0, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                fragmentTransaction.replace(R.id.list_pokemon_fragment, pokemonType)
+                fragmentTransaction.addToBackStack("type")
+                fragmentTransaction.commit()
+
+                toolbar.title = "POKEMON TYPE " + type.toUpperCase()
+            }
+        }
+    }
+
     private val showDetail = object:BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent!!.action!!.toString() == Common.KEY_ENABLE_HOME)
@@ -36,8 +61,8 @@ class MainActivity : AppCompatActivity() {
                 fragmentTransaction.commit()
 
                 //Set Pokemon Name for Toolbar
-//                val pokemon = Common.findPokemonByNum(num)
-//                toolbar.title = pokemon!!.name
+                val pokemon = Common.findPokemonByNum(num)
+                toolbar.title = pokemon!!.name
             }
         }
     }
@@ -77,6 +102,9 @@ class MainActivity : AppCompatActivity() {
 
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(showEvolution, IntentFilter(Common.KEY_NUM_EVOLUTION))
+
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(showPokemonType, IntentFilter(Common.KEY_POKEMON_TYPE))
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -87,6 +115,14 @@ class MainActivity : AppCompatActivity() {
 
                 //Clear all fragment in stack with name 'detail'
                 supportFragmentManager.popBackStack("detail", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                supportFragmentManager.popBackStack("type", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+                //Replace fragment
+                val pokemonList = PokemonList.getInstance()
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                fragmentTransaction.remove(pokemonList)
+                fragmentTransaction.replace(R.id.list_pokemon_fragment, pokemonList)
+                fragmentTransaction.commit()
 
                 supportActionBar!!.setDisplayHomeAsUpEnabled(false)
                 supportActionBar!!.setDisplayShowHomeEnabled(false)
